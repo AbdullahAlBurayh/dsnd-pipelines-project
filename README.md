@@ -1,55 +1,88 @@
-# README Template
+# Fashion Recommendation Pipeline
 
-Below is a template provided for use when building your README file for students.
+This repository contains the complete pipeline for predicting whether a customer will recommend a fashion product based on their review and metadata. The pipeline utilizes structured data and natural language processing to train and evaluate a classification model.
 
-# Project Title
+## Project Structure
 
-Project description goes here.
+```
+dsnd-pipelines-project/
+├── starter/
+│   ├── data/
+│   │   └── reviews.csv
+│   ├── fashion_recommendation_pipeline.pkl         # Final saved pipeline
+│   └── starter.ipynb                               # Notebook with code
+├── README.md
+├── requirements.txt
+```
+
+## Introduction
+
+This project builds a machine learning pipeline to classify customer recommendations using logistic regression. The pipeline includes:
+
+- Feature selection
+- Stratified train-test split
+- Preprocessing for numerical, categorical, and text data
+- Model training and evaluation
+- Hyperparameter tuning with GridSearchCV
+- Model export
 
 ## Getting Started
 
-Instructions for how to get a copy of the project running on your local machine.
-
-### Dependencies
-
-```
-Examples here
-```
-
 ### Installation
 
-Step by step explanation of how to get a dev environment running.
-
-List out the steps
-
-```
-Give an example here
-```
-
-## Testing
-
-Explain the steps needed to run any automated tests
-
-### Break Down Tests
-
-Explain what each test does and why
-
-```
-Examples here
+```bash
+git clone https://github.com/AbdullahAlBurayh/dsnd-pipelines-project.git
+cd dsnd-pipelines-project
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-## Project Instructions
+### Running the Notebook
 
-This section should contain all the student deliverables for this project.
+```bash
+jupyter notebook starter/starter.ipynb
+```
+
+### Inference with Exported Model
+
+```python
+import joblib
+
+model = joblib.load("starter/fashion_recommendation_pipeline.pkl")
+predictions = model.predict(X_new)
+```
+
+## Pipeline Overview
+
+### Preprocessing
+
+- **Numerical**: `Age`, `Positive Feedback Count` scaled with `StandardScaler`
+- **Categorical**: Encoded with `OneHotEncoder`
+- **Text**: `Review Text` processed with `spaCy` and `TfidfVectorizer`
+
+### Model
+
+- `LogisticRegression` with `class_weight='balanced'`
+- Evaluated on training and test data using accuracy, recall, precision, and F1-score
+- Best hyperparameters tuned via `GridSearchCV`
+
+### Final Scores
+
+- **Test Accuracy**: 85%
+- **F1-Score (Recommended)**: 0.90
+- **F1-Score (Not Recommended)**: 0.66
 
 ## Built With
 
-* [Item1](www.item1.com) - Description of item
-* [Item2](www.item2.com) - Description of item
-* [Item3](www.item3.com) - Description of item
-
-Include all items used to build project.
+- Python
+- scikit-learn
+- pandas
+- numpy
+- matplotlib
+- seaborn
+- spaCy
 
 ## License
 
-[License](LICENSE.txt)
+This project is licensed under the terms of the LICENSE file.
